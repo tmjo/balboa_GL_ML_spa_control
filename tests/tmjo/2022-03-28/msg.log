@@ -1,0 +1,54 @@
+homeassistant/sensor/0010fa6e384a/temp/config {"stat_t":"homeassistant/sensor/0010fa6e384a/temp/state","dev_cla":"temperature","unit_of_meas":"°C","name":"Tub temperature","uniq_id":"temp_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw/state","name":"Raw data","uniq_id":"raw_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw2/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw2/state","name":"FA: ","uniq_id":"raw2_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw2/state 203810610000008002132200
+homeassistant/sensor/0010fa6e384a/raw3/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw3/state","name":"post ffffff: ","uniq_id":"raw3_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw3/state ae0d000000000000000000000000002d
+homeassistant/sensor/0010fa6e384a/raw4/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw4/state","name":"D01: ","uniq_id":"raw4_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw4/state ae0d010000000000000000000000005a
+homeassistant/sensor/0010fa6e384a/raw5/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw5/state","name":"D02: ","uniq_id":"raw5_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw5/state ae0d02000000000000000000000000c3
+homeassistant/sensor/0010fa6e384a/raw6/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw6/state","name":"D03: ","uniq_id":"raw6_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw6/state ae0d03000000000000000000000000b4
+homeassistant/sensor/0010fa6e384a/raw7/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw7/state","name":"FA Tail: ","uniq_id":"raw7_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw7/state 8002132200000000d2
+homeassistant/sensor/0010fa6e384a/targetTemp/config {"stat_t":"homeassistant/sensor/0010fa6e384a/targetTemp/state","dev_cla":"temperature","unit_of_meas":"°C","name":"Target Tub temp","uniq_id":"targetTemp_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/status/config {"stat_t":"homeassistant/sensor/0010fa6e384a/status/state","name":"Status","uniq_id":"status_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/mode/config {"stat_t":"homeassistant/sensor/0010fa6e384a/mode/state","name":"Mode","uniq_id":"mode_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/uptime/config {"stat_t":"homeassistant/sensor/0010fa6e384a/uptime/state","name":"Uptime","uniq_id":"uptime_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/uptime/state 540
+homeassistant/sensor/0010fa6e384a/uptime/state 570
+homeassistant/sensor/0010fa6e384a/uptime/state 600
+homeassistant/sensor/0010fa6e384a/uptime/state 630
+homeassistant/sensor/0010fa6e384a/uptime/state 660
+homeassistant/sensor/0010fa6e384a/uptime/state 690
+homeassistant/sensor/0010fa6e384a/uptime/state 720
+homeassistant/sensor/0010fa6e384a/uptime/state 750
+homeassistant/sensor/0010fa6e384a/uptime/state 780
+homeassistant/sensor/0010fa6e384a/uptime/state 810
+homeassistant/sensor/0010fa6e384a/uptime/state 840
+homeassistant/sensor/0010fa6e384a/uptime/state 870
+homeassistant/sensor/0010fa6e384a/uptime/state 900
+homeassistant/sensor/0010fa6e384a/uptime/state 930
+homeassistant/sensor/0010fa6e384a/temp/config {"stat_t":"homeassistant/sensor/0010fa6e384a/temp/state","dev_cla":"temperature","unit_of_meas":"°C","name":"Tub temperature","uniq_id":"temp_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/targetTemp/config {"stat_t":"homeassistant/sensor/0010fa6e384a/targetTemp/state","dev_cla":"temperature","unit_of_meas":"°C","name":"Target Tub temp","uniq_id":"targetTemp_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/status/config {"stat_t":"homeassistant/sensor/0010fa6e384a/status/state","name":"Status","uniq_id":"status_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw/state","name":"Raw data","uniq_id":"raw_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw2/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw2/state","name":"FA: ","uniq_id":"raw2_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw3/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw3/state","name":"post ffffff: ","uniq_id":"raw3_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw4/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw4/state","name":"D01: ","uniq_id":"raw4_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw5/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw5/state","name":"D02: ","uniq_id":"raw5_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw6/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw6/state","name":"D03: ","uniq_id":"raw6_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/raw7/config {"stat_t":"homeassistant/sensor/0010fa6e384a/raw7/state","name":"FA Tail: ","uniq_id":"raw7_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/mode/config {"stat_t":"homeassistant/sensor/0010fa6e384a/mode/state","name":"Mode","uniq_id":"mode_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/uptime/config {"stat_t":"homeassistant/sensor/0010fa6e384a/uptime/state","name":"Uptime","uniq_id":"uptime_0010fa6e384a","dev":{"ids":"0010fa6e384a","mf":"Balboa","mdl":"GL2000","name":"Hottub","sw":"0.0.8"}}
+homeassistant/sensor/0010fa6e384a/uptime/state 30
+homeassistant/sensor/0010fa6e384a/uptime/state 60
+homeassistant/sensor/0010fa6e384a/uptime/state 90
+homeassistant/sensor/0010fa6e384a/uptime/state 120
+homeassistant/sensor/0010fa6e384a/uptime/state 150
+homeassistant/sensor/0010fa6e384a/uptime/state 180
+homeassistant/sensor/0010fa6e384a/uptime/state 210
+homeassistant/sensor/0010fa6e384a/uptime/state 240
+homeassistant/sensor/0010fa6e384a/uptime/state 270
+homeassistant/sensor/0010fa6e384a/uptime/state 300
