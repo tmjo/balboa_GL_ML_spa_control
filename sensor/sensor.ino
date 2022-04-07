@@ -10,7 +10,7 @@
 #else
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
-#include <SoftwareSerial.h>
+#include <SoftwareSerial.h> // - https://github.com/plerup/espsoftwareserial
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFiAP.h>
 #endif
@@ -45,7 +45,9 @@ WiFiClient tub = clients[1];
 #define RX_PIN 19
 #define TX_PIN 23
 #else
-SoftwareSerial tub(D6, D7); // RX, TX
+SoftwareSerial tub;
+#define RX_PIN D6
+#define TX_PIN D7
 #endif
 #endif
 
@@ -142,7 +144,9 @@ void setup() {
   Serial.printf("Set serial port as pins %u, %u\n", RX_PIN, TX_PIN); // added here to see if line about was where the hang was
   tub.updateBaudRate(115200);
 #else
-  tub.begin(115200);
+  tub.enableIntTx(false);
+  tub.begin(115200, SWSERIAL_8N1, RX_PIN, TX_PIN, false); // RX, TX
+  tub.setRxBufferSize(1024);
 #endif
 #endif
 
@@ -275,7 +279,7 @@ void handleBytes(uint8_t buf[], size_t len) {
 
       if (result.length() == 64 && result.substring(0, 4) == "fa14") {
 
-//        Serial.println("FA 14 Long");
+        Serial.println("FA 14 Long");
         telnetSend(result);
 
       // fa1433343043 = header + 340C = 34.0C
@@ -442,7 +446,7 @@ void handleBytes(uint8_t buf[], size_t len) {
       }
       else if (result.length() == 50 && result.substring(0, 4) == "ae0d") {
 
-//        Serial.println("AE 0D Long");
+        Serial.println("AE 0D Long");
         telnetSend(result);
 
         String message = result.substring(0,32);  // ignore any FB ending
