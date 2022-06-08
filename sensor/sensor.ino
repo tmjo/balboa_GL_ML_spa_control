@@ -1,6 +1,8 @@
 // If connect to serial port over TCP, define the following
 // #define SERIAL_OVER_IP_ADDR "192.168.178.131"
 
+// If using MAX485 board which requires RTS_PIN for request-to-send, define the following:
+// #define MAX485 TRUE;
 
 #ifdef ESP32
 #include <WiFi.h>
@@ -34,6 +36,16 @@ const char passphrase[] = SECRET_PSK;
 byte mac[] = {0x00, 0x10, 0xFA, 0x6E, 0x38, 0x4A};
 // WiFi.macAddress();
 
+// Perform measurements or read nameplate values on your tub to define the power [kW]
+// for each device in order to calculate tub power usage
+const float POWER_HEATER = 2.8;
+const float POWER_PUMP_CIRCULATION = 0.3;
+const float POWER_PUMP1_LOW = 0.31;
+const float POWER_PUMP1_HIGH = 1.3;
+const float POWER_PUMP2_LOW = 0.3;
+const float POWER_PUMP2_HIGH = 0.6;
+
+
 const char* ZERO_SPEED = "off";
 const char* LOW_SPEED = "low";
 const char* HIGH_SPEED = "high";
@@ -51,6 +63,9 @@ WiFiClient tub = clients[1];
 SoftwareSerial tub;
 #define RX_PIN D6
 #define TX_PIN D7
+#endif
+#ifdef MAX485
+#define RTS_PIN D1 // RS485 direction control, RequestToSend TX or RX, required for MAX485 board.
 #endif
 #endif
 
@@ -76,6 +91,7 @@ HASensor pump1_state("pump1_state");
 HASensor pump2_state("pump2_state");
 HABinarySensor heater("heater", "heat", false);
 HABinarySensor light("light", "light", false);
+HASensor tubpower("tubpower");
 
 #define MAX_SRV_CLIENTS 2
 WiFiServer server(23);
@@ -90,8 +106,11 @@ ESP8266WebServer webserver(80);
 
 boolean pump1State = false;
 boolean pump2State = false;
+String pump1Speed = ZERO_SPEED;
+String pump2Speed = ZERO_SPEED;
 boolean heaterState = false;
 boolean lightState = false;
+float tubpowerCalc = 0;
 
 String sendBuffer;
 
@@ -144,6 +163,10 @@ void setup() {
 
 
 #ifndef SERIAL_OVER_IP_ADDR
+#ifdef MAX485
+  pinMode(RTS_PIN, OUTPUT);
+  digitalWrite(RTS_PIN, LOW);
+#endif
 #ifdef ESP32
   Serial.printf("Setting serial port as pins %u, %u\n", RX_PIN, TX_PIN);
   tub.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
@@ -218,6 +241,10 @@ void setup() {
   currentMode.setName("Mode");
   uptime.setName("Uptime");
 
+  tubpower.setName("Tub Power");
+  tubpower.setUnitOfMeasurement("kW");
+  tubpower.setDeviceClass("power");
+
 
 #ifdef BROKER_USERNAME
   mqtt.begin(BROKER_ADDR, BROKER_USERNAME, BROKER_PASSWORD);
@@ -241,6 +268,8 @@ String state = "unknown";
 String lastJSON = "";
 int lastUptime = 0;
 double tubTemp2 = 0.0;
+String timeString = "";
+
 void loop() {
   mqtt.loop();
   ArduinoOTA.handle();
@@ -317,30 +346,60 @@ void handleBytes(uint8_t buf[], size_t len) {
         // If messages is temp or ---- for temp, it is status message
         if (result.substring(10, 12) == "43" || result.substring(10, 12) == "2d") {
 
+          tubpowerCalc = 0;
           String pump = result.substring(13, 14);
+
           if (pump == "0") {
             pump1State = false;
             pump2State = false;
-            pump1_state.setValue(ZERO_SPEED);
-            pump2_state.setValue(ZERO_SPEED);
+            pump1Speed = ZERO_SPEED;
+            pump2Speed = ZERO_SPEED;
           }
-          else if (pump == "1" || pump == "2") {
+          else if (pump == "1"){
             pump1State = true;
             pump2State = false;
-            pump1_state.setValue(pump == "1" ? LOW_SPEED : HIGH_SPEED);
-            pump2_state.setValue("");
+            pump1Speed = LOW_SPEED;
+            pump2Speed = ZERO_SPEED;
+            tubpowerCalc += POWER_PUMP1_LOW;
           }
-          else if (pump == "9" || pump == "a") {
+          else if (pump == "2"){
             pump1State = true;
-            pump2State = true;
-            pump1_state.setValue(pump == "9" ? LOW_SPEED : HIGH_SPEED);
-            pump2_state.setValue(pump == "a" ? LOW_SPEED : HIGH_SPEED);
+            pump2State = false;
+            pump1Speed = HIGH_SPEED;
+            pump2Speed = ZERO_SPEED;
+            tubpowerCalc += POWER_PUMP1_HIGH;
           }
-          else if (pump == "7" || pump == "8") {
+          else if (pump == "7") {
             pump1State = false;
             pump2State = true;
-            pump1_state.setValue("");
-            pump2_state.setValue(pump == "7" ? LOW_SPEED : HIGH_SPEED);
+            pump1Speed = ZERO_SPEED;
+            pump2Speed = LOW_SPEED;
+            tubpowerCalc += POWER_PUMP2_LOW;
+          }
+
+          else if (pump == "8") {
+            pump1State = false;
+            pump2State = true;
+            pump1Speed = ZERO_SPEED;
+            pump2Speed = HIGH_SPEED;
+            tubpowerCalc += POWER_PUMP2_HIGH;
+          }
+
+          else if (pump == "9") {
+            pump1State = true;
+            pump2State = true;
+            pump1Speed = LOW_SPEED;
+            pump2Speed = HIGH_SPEED;
+            tubpowerCalc += POWER_PUMP1_LOW;
+            tubpowerCalc += POWER_PUMP2_HIGH;
+          }
+          else if (pump == "a") {
+            pump1State = true;
+            pump2State = true;
+            pump1Speed = HIGH_SPEED;
+            pump2Speed = LOW_SPEED;
+            tubpowerCalc += POWER_PUMP1_HIGH;
+            tubpowerCalc += POWER_PUMP2_LOW;            
           }
 
           String heater = result.substring(14, 15);
@@ -349,11 +408,15 @@ void handleBytes(uint8_t buf[], size_t len) {
           }
           else if (heater == "1") {
             heaterState = true;
+            tubpowerCalc += POWER_HEATER;
           }
           else if (heater == "2") {
             heaterState = true; // heater off, verifying temp change, but creates noisy state if we return false
+            tubpowerCalc += POWER_HEATER;
           }
 
+          tubpower.setValue(tubpowerCalc);
+          
           String light = result.substring(15, 16);
           if (light == "0") {
             lightState = false;
@@ -419,16 +482,19 @@ void handleBytes(uint8_t buf[], size_t len) {
 
 
             if(result.substring(28, 32) != "ffff") {
-              String timeString = HexString2TimeString(result.substring(28, 32));
-              haTime.setValue(timeString.c_str());
+              timeString = HexString2TimeString(result.substring(28, 32));              
             }
             else {
-              haTime.setValue("--:--");
+              timeString = "--:--";
             }
+            haTime.setValue(timeString.c_str());
+            
             // Temperature reading after timestamp, read in hex fahrenheit
             tubTemp2 = (strtol(result.substring(32, 34).c_str(), NULL, 16)-32)*.55556;
             tubTemp2 = round(tubTemp2 * 2)/2; // tweak to round to nearest half
             temp2.setValue(tubTemp2);            
+
+            
             // temp up - ff0100000000?? - end varies
 
             // temp down - ff0200000000?? - end varies
@@ -489,7 +555,9 @@ void handleBytes(uint8_t buf[], size_t len) {
         }
 
         pump1.setState(pump1State);
+        pump1_state.setValue(pump1Speed.c_str());
         pump2.setState(pump2State);
+        pump2_state.setValue(pump2Speed.c_str());
         heater.setState(heaterState);
         light.setState(lightState);
 
@@ -554,9 +622,15 @@ void handleBytes(uint8_t buf[], size_t len) {
 String HexString2TimeString(String hexstring){
   // Convert "HHMM" in HEX to "HH:MM" with decimal representation
   String time = "";
-  time.concat(strtol(hexstring.substring(0, 2).c_str(), NULL, 16));
+  int hour = strtol(hexstring.substring(0, 2).c_str(), NULL, 16);
+  int minute  = strtol(hexstring.substring(2, 4).c_str(), NULL, 16);
+
+  if(hour<10) time.concat("0");     // Add leading zero
+  time.concat(hour);
   time.concat(":");
-  time.concat(strtol(hexstring.substring(2, 4).c_str(), NULL, 16));
+  if(minute<10) time.concat("0");   // Add leading zero
+  time.concat(minute);
+  
   return time;
 }
 
