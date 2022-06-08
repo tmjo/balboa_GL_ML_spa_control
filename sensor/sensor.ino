@@ -2,7 +2,7 @@
 // #define SERIAL_OVER_IP_ADDR "192.168.178.131"
 
 
-#ifdef ESP32d
+#ifdef ESP32
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <WebServer.h>
