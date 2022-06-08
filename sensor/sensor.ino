@@ -4,7 +4,7 @@
 // If using MAX485 board which requires RTS_PIN for request-to-send, define the following:
 // #define MAX485 TRUE;
 
-#ifdef ESP32d
+#ifdef ESP32
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <WebServer.h>
