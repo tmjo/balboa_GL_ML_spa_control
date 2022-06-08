@@ -2,7 +2,7 @@
 // #define SERIAL_OVER_IP_ADDR "192.168.178.131"
 
 
-#ifdef ESP32
+#ifdef ESP32d
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <WebServer.h>
@@ -241,6 +241,8 @@ String state = "unknown";
 String lastJSON = "";
 int lastUptime = 0;
 double tubTemp2 = 0.0;
+String timeString = "";
+
 void loop() {
   mqtt.loop();
   ArduinoOTA.handle();
@@ -425,10 +427,14 @@ void handleBytes(uint8_t buf[], size_t len) {
             else {
               haTime.setValue("--:--");
             }
+            haTime.setValue(timeString.c_str());
+            
             // Temperature reading after timestamp, read in hex fahrenheit
             tubTemp2 = (strtol(result.substring(32, 34).c_str(), NULL, 16)-32)*.55556;
             tubTemp2 = round(tubTemp2 * 2)/2; // tweak to round to nearest half
             temp2.setValue(tubTemp2);            
+            
+
             // temp up - ff0100000000?? - end varies
 
             // temp down - ff0200000000?? - end varies
